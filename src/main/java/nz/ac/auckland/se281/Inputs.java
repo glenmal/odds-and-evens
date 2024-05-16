@@ -34,18 +34,6 @@ public enum Inputs {
     }
   }
 
-  // converts choice enums to string
-  public static String choiceString(Choice choice) {
-    switch (choice) {
-      case EVEN:
-        return "EVEN";
-      case ODD:
-        return "ODD";
-      default:
-        return "";
-    }
-  }
-
   // calculates win and checks if player wins
   public static Boolean winCalc(Integer playerFingers, Integer botFingers, Choice choice) {
     Integer sum = playerFingers + botFingers;
