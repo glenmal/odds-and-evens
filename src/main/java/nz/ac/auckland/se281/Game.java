@@ -24,25 +24,43 @@ import nz.ac.auckland.se281.Main.Difficulty;
 public class Game {
   private Integer roundCount = 0;
   private String playerName = "";
+  private AI botAI;
+  private Choice playerChoice;
 
   public void newGame(Difficulty difficulty, Choice choice, String[] options) {
+    // generates bot to play against
+    this.botAI = AIFactory.generateAI(difficulty);
+    this.playerChoice = choice;
+    this.playerName = options[0];
     // the first element of options[0]; is the name of the player
-    MessageCli.WELCOME_PLAYER.printMessage(options[0]);
-    playerName = options[0];
+    MessageCli.WELCOME_PLAYER.printMessage(this.playerName);
+    roundCount = 0;
   }
 
   public void play() {
     this.roundCount++;
+    Integer botFingers = botAI.botOutput();
     MessageCli.START_ROUND.printMessage(Integer.toString(roundCount));
     MessageCli.ASK_INPUT.printMessage();
     String input = Utils.scanner.nextLine();
     // checks if user doesn't input a correct value and keeps asking user until they input a correct
     // value
-    while (Inputs.checkErrors(input)) {
+    while (Inputs.checkFingerErrors(input)) {
       MessageCli.INVALID_INPUT.printMessage();
       input = Utils.scanner.nextLine();
     }
     MessageCli.PRINT_INFO_HAND.printMessage(this.playerName, input);
+    MessageCli.PRINT_INFO_HAND.printMessage("HAL-9000", Integer.toString(botFingers));
+
+    // checks if the player won
+    Integer sum = Integer.parseInt(input) + botFingers;
+    if (Inputs.winCalc(Integer.parseInt(input), botFingers, this.playerChoice)) {
+      MessageCli.PRINT_OUTCOME_ROUND.printMessage(
+          Integer.toString(sum), Inputs.stringWinner(sum), playerName);
+    } else {
+      MessageCli.PRINT_OUTCOME_ROUND.printMessage(
+          Integer.toString(sum), Inputs.stringWinner(sum), "HAL-9000");
+    }
   }
 
   public void endGame() {}
