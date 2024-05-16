@@ -13,6 +13,14 @@ public class Game {
   private Integer evenCount;
   private Integer winCount;
 
+  /**
+   * Starts a new game of "Odds and Evens" with initial parameters set to user inputs, and game
+   * stats are zeroed (win, odd, even and round counts)
+   *
+   * @param difficulty sets the difficulty of the AI bot to the user input (EASY, MEDIUM, HARD)
+   * @param choice sets the user's winning condition (ODD or EVEN)
+   * @param options gets the player's name
+   */
   public void newGame(Difficulty difficulty, Choice choice, String[] options) {
     // generates bot to play against
     this.botAI = AIFactory.generateAI(difficulty);
@@ -26,6 +34,14 @@ public class Game {
     winCount = 0;
   }
 
+  /**
+   * Lets the user play one round of the odds and evens game by taking an integer input from the
+   * user (0 - 5) and generates an answer from the AI which uses a strategy depending on the
+   * difficulty selected prior. Also calculates the sum and increments game stats when required
+   * (win, odd, even and round counts)
+   *
+   * <p>If there is no game active, it prints an error message
+   */
   public void play() {
     // if statement checks if there is an active game
     if (playerName != null) {
@@ -35,8 +51,7 @@ public class Game {
       MessageCli.ASK_INPUT.printMessage();
       String input = Utils.scanner.nextLine();
       // checks if user doesn't input a correct value and keeps asking user until they input a
-      // correct
-      // value
+      // correct value
       while (Inputs.checkFingerErrors(input)) {
         MessageCli.INVALID_INPUT.printMessage();
         input = Utils.scanner.nextLine();
@@ -66,7 +81,13 @@ public class Game {
     }
   }
 
-  // adds function to end game
+  /**
+   * Function that allows the user to end a current active game, by zeroing all game stats and
+   * setting all game parameters (botAI, player choice, player name) to null. Prints the game stats
+   * and who won or if there was a tie, it declares a tie.
+   *
+   * <p>If there is no game active, it prints an error message
+   */
   public void endGame() {
     // if statement checks if there is an active game
     if (playerName != null) {
@@ -92,7 +113,12 @@ public class Game {
     }
   }
 
-  // adds function to show stats of current game
+  /**
+   * Function that shows the current active game stats (bot wins, user wins, rounds played in the
+   * active game )
+   *
+   * <p>If there is no game active, it prints an error message
+   */
   public void showStats() {
     // if statement checks if there is an active game
     if (playerName != null) {

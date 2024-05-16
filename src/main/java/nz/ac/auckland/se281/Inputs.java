@@ -10,7 +10,13 @@ public enum Inputs {
   FOUR,
   FIVE;
 
-  // checks if there is a wrong number inputted
+  /**
+   * Function that checks if the user inputted a valid integer number of fingers (0 - 5)
+   *
+   * @param input the number of fingers the use inputs (0 - 5)
+   * @return boolean true = invalid input (not integer between 0 and 5 inclusive), false = valid
+   *     input
+   */
   public static Boolean checkFingerErrors(String input) {
     switch (input) {
       case "0":
@@ -25,7 +31,12 @@ public enum Inputs {
     }
   }
 
-  // odd or even sum winner into string
+  /**
+   * Function that returns a string depending on the sum is even or odd
+   *
+   * @param sum the sum of both the bot "fingers" and the user's fingers
+   * @return string if sum is even or odd
+   */
   public static String oddsWinner(Integer sum) {
     if (Utils.isEven(sum)) {
       return "EVEN";
@@ -34,7 +45,15 @@ public enum Inputs {
     }
   }
 
-  // calculates win and checks if player wins
+  /**
+   * Function that determines whether the user or the both wins, depending on what is the win
+   * condition is for the user (ODD or EVEN)
+   *
+   * @param playerFingers the input from the user for the number of fingers they choose
+   * @param botFingers the number of "fingers" the bot generates
+   * @param choice the win condition the user chooses (EVEN or ODD)
+   * @return boolean true = user won, false = bot won
+   */
   public static Boolean winCalc(Integer playerFingers, Integer botFingers, Choice choice) {
     Integer sum = playerFingers + botFingers;
     switch (choice) {
