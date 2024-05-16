@@ -25,12 +25,24 @@ public enum Inputs {
     }
   }
 
-  // converts choice enums to String
-  public static String stringWinner(Integer sum) {
+  // odd or even sum winner into string
+  public static String oddsWinner(Integer sum) {
     if (Utils.isEven(sum)) {
       return "EVEN";
     } else {
       return "ODD";
+    }
+  }
+
+  // converts choice enums to string
+  public static String choiceString(Choice choice) {
+    switch (choice) {
+      case EVEN:
+        return "EVEN";
+      case ODD:
+        return "ODD";
+      default:
+        return "";
     }
   }
 

@@ -26,6 +26,8 @@ public class Game {
   private String playerName = "";
   private AI botAI;
   private Choice playerChoice;
+  private Integer oddsCount;
+  private Integer evenCount;
 
   public void newGame(Difficulty difficulty, Choice choice, String[] options) {
     // generates bot to play against
@@ -35,11 +37,13 @@ public class Game {
     // the first element of options[0]; is the name of the player
     MessageCli.WELCOME_PLAYER.printMessage(this.playerName);
     roundCount = 0;
+    oddsCount = 0;
+    evenCount = 0;
   }
 
   public void play() {
     this.roundCount++;
-    Integer botFingers = botAI.botOutput();
+    Integer botFingers = botAI.botOutput(roundCount, evenCount, oddsCount, playerChoice);
     MessageCli.START_ROUND.printMessage(Integer.toString(roundCount));
     MessageCli.ASK_INPUT.printMessage();
     String input = Utils.scanner.nextLine();
@@ -52,14 +56,21 @@ public class Game {
     MessageCli.PRINT_INFO_HAND.printMessage(this.playerName, input);
     MessageCli.PRINT_INFO_HAND.printMessage("HAL-9000", Integer.toString(botFingers));
 
+    // adds to even count or odd count
+    if (Integer.parseInt(input) % 2 == 0) {
+      evenCount++;
+    } else {
+      oddsCount++;
+    }
+
     // checks if the player won
     Integer sum = Integer.parseInt(input) + botFingers;
     if (Inputs.winCalc(Integer.parseInt(input), botFingers, this.playerChoice)) {
       MessageCli.PRINT_OUTCOME_ROUND.printMessage(
-          Integer.toString(sum), Inputs.stringWinner(sum), playerName);
+          Integer.toString(sum), Inputs.oddsWinner(sum), playerName);
     } else {
       MessageCli.PRINT_OUTCOME_ROUND.printMessage(
-          Integer.toString(sum), Inputs.stringWinner(sum), "HAL-9000");
+          Integer.toString(sum), Inputs.oddsWinner(sum), "HAL-9000");
     }
   }
 
